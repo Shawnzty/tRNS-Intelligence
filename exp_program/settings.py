@@ -7,10 +7,10 @@ import numpy as np
 # 1512 982 for mbp14
 # 3840 2160 for dell
 # 5120 1440 for Philips
-screen_width = 5120
-screen_width_mm = 1193.5
+screen_width = 3840
+screen_width_mm = 596.74
 mm_pix = screen_width / screen_width_mm
-screen_height = 1440
+screen_height = 2160
 
 # visual settings
 distance = 580 # distance between screen and participant in unit of mm
