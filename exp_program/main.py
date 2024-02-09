@@ -9,7 +9,7 @@ import time
 # dilogue box
 ''' Session: before, during, after
     test: 1 = test, 0 = not test '''
-expInfo = {'Name':'HAL', 'Session':'before', 'Test': 0}
+expInfo = {'Name':'HAL', 'Trial':'1', 'Session':'pre', 'Test': 0}
 expInfo['dateStr'] = data.getDateStr()  # add the current time
 # present a dialogue to change params
 dlg = gui.DlgFromDict(expInfo, title='Info', fixed=['dateStr'])
