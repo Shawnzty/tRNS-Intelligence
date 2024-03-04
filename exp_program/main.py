@@ -9,15 +9,16 @@ import time
 # dilogue box
 ''' Session: before, during, after
     test: 1 = test, 0 = not test '''
-expInfo = {'Name':'HAL', 'Trial':'1', 'Session':'pre', 'Test': '1'}
+expInfo = {'Name': 'HAL', 'ID': '0', 'Group': '1', 'Test': '0'}
 expInfo['dateStr'] = data.getDateStr()  # add the current time
 # present a dialogue to change params
-dlg = gui.DlgFromDict(expInfo, title='Info', fixed=['dateStr'])
+dlg = gui.DlgFromDict(expInfo, title='Experiment Info', fixed=['dateStr'])
 if dlg.OK:
-    filename = expInfo['Name'] + "_test_" + expInfo['dateStr'] if expInfo['Test']==1 else expInfo['Name'] + "_" + expInfo['Session'] + "_" + expInfo['dateStr']
+    filename = expInfo['Name'] + "_" + expInfo['ID'] + "_test_" + expInfo['dateStr'] if expInfo['Test']==1 \
+        else expInfo['Name'] + "_" + expInfo['ID'] + "_" + expInfo['Group'] + "_" + expInfo['dateStr']
 else:
     core.quit()  # the user hit cancel so exit
-dataFile = open('../data/'+filename+'.csv', 'w')  # a simple text file with 'comma-separated-values'
+dataFile = open('../behav_data/'+filename+'.csv', 'w')  # a simple text file with 'comma-separated-values'
 ''' type: 1 = endogenous, 2 = exogenous
     cue: -1 = left, 1 = right
     valid: -1 = invalid, 1 = valid
@@ -25,7 +26,7 @@ dataFile = open('../data/'+filename+'.csv', 'w')  # a simple text file with 'com
     interval between cue and stimulus: in second
     response: 0 = no response, 1 = has response
     reaction time: in second '''
-dataFile.write('type,cue,valid,ICS,stimulus side,stimulus x,stimulus y,response,reaction time\n')
+dataFile.write('Question,cue,valid,ICS,stimulus side,stimulus x,stimulus y,response,reaction time\n')
 
 #create a window
 mywin = visual.Window([screen_width, screen_height], 
