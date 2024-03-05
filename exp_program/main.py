@@ -34,10 +34,10 @@ mywin = visual.Window([screen_width, screen_height],
                       color=[-1,-1,-1], units="pix")
 print("Window created.")
 
-# create objects
-trigger_flash = visual.Rect(mywin, pos=((screen_width-trigger_sizex)/2, trigger_ypos),
-                       size=(trigger_sizex,trigger_sizey), lineColor=None, fillColor='white')
-print("Objects created.")
+# # create objects
+# trigger_flash = visual.Rect(mywin, pos=((screen_width-trigger_sizex)/2, trigger_ypos),
+#                        size=(trigger_sizex,trigger_sizey), lineColor=None, fillColor='white')
+# print("Objects created.")
 
 # get questions by set
 sets = get_sets(id=int(expInfo['ID']), set_number=int(expInfo['Set']), test=int(expInfo['Test']))
@@ -51,33 +51,15 @@ print("Refresh rate: %.2f", refresh_rate)
 # trigger = serial.Serial('COM3', 9600) # lab 11, office 3
 # print("Serial port for Arduino opened.")
 
-
 start(mywin, expInfo)
+for question in sets:
+    index, options = question[0], question[1]
+    answer, reaction_time = one_question(mywin, index, options)
+    # save data
+    dataFile.write('%s,%d,%.3f\n' %(index, answer, reaction_time))
 
-for row in all_trials:
-    fix(mywin, fixation, fix_time, left_rf, right_rf, trigger)
-
-    if row[0] == 1: # endogenous
-        response, reaction_time = endo(mywin, left_rf, right_rf, arrow,
-                                         stimulus, trigger, cue = row[1], stim_side = row[4],
-                                           ics = row[3], stim_x = row[5], stim_y = row[6])
-    
-        # save data
-        dataFile.write('%i,%i,%i,%.2f,%i,%i,%i,%i,%.5f\n' %(row[0], row[1], row[2], row[3],
-                                                     row[4], row[5], row[6], response, reaction_time))
-
-    else: # exogenous
-        response, reaction_time = exo(mywin, fixation, left_rf, right_rf, stimulus,
-                                      trigger, exo_rect, cue = row[1], stim_side = row[4], 
-                                        ics = row[3], stim_x = row[5], stim_y = row[6])
-
-        # save data
-        dataFile.write('%i,%i,%i,%.2f,%i,%i,%i,%i,%.5f\n' %(row[0], row[1], row[2], row[3],
-                                                     row[4], row[5], row[6], response, reaction_time))
-    print(dataFile)
-
+print(dataFile)
 
 finish(mywin, expInfo)
-
 
 dataFile.close()
