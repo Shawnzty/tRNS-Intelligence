@@ -1,8 +1,25 @@
 import numpy as np
+import pandas as pd
 from psychopy import core, visual, gui, data, event
 from settings import *
 import serial
 import time
+
+
+def get_sets(id, set_number, test):
+    
+    if test == 0:
+        filename = 'rspm_info.csv'
+        df = pd.read_csv(filename)
+        all_questions = df.columns[0]
+        id_column = "id" + str(id)
+        set_rows = df[df[id_column] == set_number]
+        sets = set_rows[all_questions]
+        return_sets = sets.to_numpy()
+    else:
+        return_sets = np.array(['test1', 'test2', 'test3']).astype(object)
+
+    return return_sets
 
 def generate_all_trials(endo_trials, exo_trials, val_ratio):
 
@@ -14,7 +31,6 @@ def generate_all_trials(endo_trials, exo_trials, val_ratio):
 
     valid_unit = make_trial(round(endo_trials*val_ratio/2), 1, round(endo_trials*(1-val_ratio)/2), -1)
     all_valid = np.concatenate((valid_unit, valid_unit, valid_unit, valid_unit))
-
 
     ics_unit = np.concatenate((make_trial(round((endo_trials*val_ratio)/4), ics_slow, round((endo_trials*val_ratio)/4), ics_fast), 
                                make_trial(round((endo_trials*(1-val_ratio))/4), ics_slow, round((endo_trials*(1-val_ratio))/4), ics_fast)))
