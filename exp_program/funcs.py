@@ -7,17 +7,16 @@ import time
 
 
 def get_sets(id, set_number, test):
-    
+
+    filename = 'rspm_info.csv'
+    df = pd.read_csv(filename)
     if test == 0:
-        filename = 'rspm_info.csv'
-        df = pd.read_csv(filename)
-        all_questions = df.columns[0]
         id_column = "id" + str(id)
-        set_rows = df[df[id_column] == set_number]
-        sets = set_rows[all_questions]
-        return_sets = sets.to_numpy()
+        filtered_df = df[df[id_column] == set_number]
+        sets = filtered_df.iloc[:,[0,1]]
     else:
-        return_sets = np.array(['test1', 'test2', 'test3']).astype(object)
+        sets = df.iloc[-3:,[0,1]]
+    return_sets = sets.to_numpy()
 
     return return_sets
 

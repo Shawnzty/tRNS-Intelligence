@@ -40,7 +40,7 @@ trigger_flash = visual.Rect(mywin, pos=((screen_width-trigger_sizex)/2, trigger_
 print("Objects created.")
 
 # get questions by set
-sets = get_sets(id=expInfo['ID'], set_number=expInfo['Set'], test=1)
+sets = get_sets(id=int(expInfo['ID']), set_number=int(expInfo['Set']), test=int(expInfo['Test']))
 
 print(sets)
 print("Question set generated.")
