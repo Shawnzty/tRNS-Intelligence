@@ -33,10 +33,10 @@ mywin = visual.Window([screen_width, screen_height],
 print("Window created.")
 
 # create objects
-trigger_flash = visual.Rect(mywin, pos=((screen_width-trigger_sizex)/2, trigger_ypos),
-                       size=(trigger_sizex,trigger_sizey), lineColor=None, fillColor='white')
+# trigger_flash = visual.Rect(mywin, pos=((screen_width-trigger_sizex)/2, trigger_ypos),
+#                        size=(trigger_sizex,trigger_sizey), lineColor=None, fillColor='white')
 
-print("Objects created.")
+# print("Objects created.")
 
 # get questions by set
 sets = get_sets(id=int(expInfo['ID']), set_number=int(expInfo['Set']), test=int(expInfo['Test']))

@@ -29,6 +29,37 @@ def one_question(mywin, index, options):
 
     image_stim = visual.ImageStim(mywin, image=image_path, pos=(0,0))
 
+    show_one_question(mywin, options, image_stim, width, height)
+
+    mouse = event.Mouse(mywin)
+
+    # trigger.write(b'H')
+    mywin.flip()
+    answer = 0
+    reaction_time = 0
+    rt_clock = core.Clock()
+    while rt_clock.getTime() < wait_for_answer:
+        buttons, _ = mouse.getPressed(getTime=True)
+        if buttons[0] == 1: # left click
+            pos = mouse.getPos()
+            # print(f"Left click detected at position: {pos}")
+            answer = pos_to_answer(pos, options)
+            # print(answer)
+            if answer != 0:
+                reaction_time = rt_clock.getTime()
+                # trigger.write(b'L')
+                show_one_question(mywin, options, image_stim, width, height)
+                clicked_box(mywin, options, answer)
+                mywin.flip()
+                core.wait(0.5)
+                break
+            else:
+                continue
+    
+    return answer, reaction_time
+
+
+def show_one_question(mywin, options, image_stim, width, height):
     ratio = 1.5 # 1.5 ~ 4k/2k
     if options == 6:
         image_stim.size = (1380/ratio, (1380*height)/(width*ratio))
@@ -46,23 +77,80 @@ def one_question(mywin, index, options):
             click_text = visual.TextStim(mywin, text=text_8[i], color=tx_color, pos=pos_8[i], height=tx_height)
             click_box.draw()
             click_text.draw()
-
-    mywin.flip()
-    event.waitKeys(keyList=['space'])
-    answer = 2
-    reaction_time = 11.34
-    return answer, reaction_time
-
-
-def draw_6options(mywin):
     
-
     return True
 
+def pos_to_answer(pos, options):
+    if options == 6:
+        if (pos[0] > col1_6 - 0.5*click_box_w) and (pos[0] < col1_6 + 0.5*click_box_w):
+            if (pos[1] > row1_6 - 0.5*click_box_h) and (pos[1] < row1_6 + 0.5*click_box_h):
+                return 1
+            elif (pos[1] > row2_6 - 0.5*click_box_h) and (pos[1] < row2_6 + 0.5*click_box_h):
+                return 4
+            else:
+                return 0
+        elif (pos[0] > col2_6 - 0.5*click_box_w) and (pos[0] < col2_6 + 0.5*click_box_w):
+            if (pos[1] > row1_6 - 0.5*click_box_h) and (pos[1] < row1_6 + 0.5*click_box_h):
+                return 2
+            elif (pos[1] > row2_6 - 0.5*click_box_h) and (pos[1] < row2_6 + 0.5*click_box_h):
+                return 5
+            else:
+                return 0
+        elif (pos[0] > col3_6 - 0.5*click_box_w) and (pos[0] < col3_6 + 0.5*click_box_w):
+            if (pos[1] > row1_6 - 0.5*click_box_h) and (pos[1] < row1_6 + 0.5*click_box_h):
+                return 3
+            elif (pos[1] > row2_6 - 0.5*click_box_h) and (pos[1] < row2_6 + 0.5*click_box_h):
+                return 6
+            else:
+                return 0
+        else:
+            return 0
+    
+    else:
+        if (pos[0] > col1_8 - 0.5*click_box_w) and (pos[0] < col1_8 + 0.5*click_box_w):
+            if (pos[1] > row1_8 - 0.5*click_box_h) and (pos[1] < row1_8 + 0.5*click_box_h):
+                return 1
+            elif (pos[1] > row2_8 - 0.5*click_box_h) and (pos[1] < row2_8 + 0.5*click_box_h):
+                return 5
+            else:
+                return 0
+        elif (pos[0] > col2_8 - 0.5*click_box_w) and (pos[0] < col2_8 + 0.5*click_box_w):
+            if (pos[1] > row1_8 - 0.5*click_box_h) and (pos[1] < row1_8 + 0.5*click_box_h):
+                return 2
+            elif (pos[1] > row2_8 - 0.5*click_box_h) and (pos[1] < row2_8 + 0.5*click_box_h):
+                return 6
+            else:
+                return 0
+        elif (pos[0] > col3_8 - 0.5*click_box_w) and (pos[0] < col3_8 + 0.5*click_box_w):
+            if (pos[1] > row1_8 - 0.5*click_box_h) and (pos[1] < row1_8 + 0.5*click_box_h):
+                return 3
+            elif (pos[1] > row2_8 - 0.5*click_box_h) and (pos[1] < row2_8 + 0.5*click_box_h):
+                return 7
+            else:
+                return 0
+        elif (pos[0] > col4_8 - 0.5*click_box_w) and (pos[0] < col4_8 + 0.5*click_box_w):
+            if (pos[1] > row1_8 - 0.5*click_box_h) and (pos[1] < row1_8 + 0.5*click_box_h):
+                return 4
+            elif (pos[1] > row2_8 - 0.5*click_box_h) and (pos[1] < row2_8 + 0.5*click_box_h):
+                return 8
+            else:
+                return 0
+        else:
+            return 0
 
-def draw_8options(mywin):
 
-    # mywin.flip()
+def clicked_box(mywin, options, answer):
+    answer = answer - 1 # 0-based index
+    if options == 6:
+        click_box = visual.Rect(mywin, pos=pos_6[answer], size=click_box_size, lineColor=None, fillColor=tx_color)
+        click_text = visual.TextStim(mywin, text=text_6[answer], color=bk_color, pos=pos_6[answer], height=tx_height)
+        click_box.draw()
+        click_text.draw()
+    else:
+        click_box = visual.Rect(mywin, pos=pos_8[answer], size=click_box_size, lineColor=None, fillColor=tx_color)
+        click_text = visual.TextStim(mywin, text=text_8[answer], color=bk_color, pos=pos_8[answer], height=tx_height)
+        click_box.draw()
+        click_text.draw()
     return True
 
 

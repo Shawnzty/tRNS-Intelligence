@@ -28,9 +28,11 @@ trigger_ypos = -1*(screen_height/2 - trigger_sizey/2 - 100)
 
 
 # click box
-click_box_size = (100,50)
-bk_color = '#333333'
-tx_color = '#f2f2f2'
+click_box_w = 100
+click_box_h = 50
+click_box_size = (click_box_w, click_box_h)
+bk_color = '#595959'
+tx_color = '#cccccc'
 tx_height = 40
 
 col1_6 = -350
@@ -50,3 +52,6 @@ row1_8 = -90
 row2_8 = -300
 pos_8 = [(col1_8, row1_8), (col2_8, row1_8), (col3_8, row1_8), (col4_8, row1_8), (col1_8, row2_8), (col2_8, row2_8), (col3_8, row2_8), (col4_8, row2_8)]
 text_8 = ['1', '2', '3', '4', '5', '6', '7', '8']
+
+# response
+wait_for_answer = 20
