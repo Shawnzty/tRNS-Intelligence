@@ -33,20 +33,20 @@ bk_color = '#333333'
 tx_color = '#f2f2f2'
 tx_height = 40
 
-col1_6 = -400
-col2_6 = 0
-col3_6 = 400
-row1_6 = -100
-row2_6 = -400
+col1_6 = -350
+col2_6 = -20
+col3_6 = 300
+row1_6 = -70
+row2_6 = -295
 pos_6 = [(col1_6, row1_6), (col2_6, row1_6), (col3_6, row1_6), (col1_6, row2_6), (col2_6, row2_6), (col3_6, row2_6)]
 text_6 = ['1', '2', '3', '4', '5', '6']
 
 
-col1_8 = -500
-col2_8 = -200
-col3_8 = 200
-col4_8 = 500
-row1_8 = -100
-row2_8 = -400
+col1_8 = -380
+col2_8 = -130
+col3_8 = 100
+col4_8 = 340
+row1_8 = -90
+row2_8 = -300
 pos_8 = [(col1_8, row1_8), (col2_8, row1_8), (col3_8, row1_8), (col4_8, row1_8), (col1_8, row2_8), (col2_8, row2_8), (col3_8, row2_8), (col4_8, row2_8)]
 text_8 = ['1', '2', '3', '4', '5', '6', '7', '8']
