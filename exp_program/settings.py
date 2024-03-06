@@ -7,73 +7,46 @@ import numpy as np
 # 1512 982 for mbp14
 # 3840 2160 for dell
 # 5120 1440 for Philips
-screen_width = 3840
-screen_width_mm = 596.74
-mm_pix = screen_width / screen_width_mm
-screen_height = 2160
+screen_width = 2560
+# screen_width_mm = 596.74
+# mm_pix = screen_width / screen_width_mm
+screen_height = 1440
 
 # visual settings
 distance = 580 # distance between screen and participant in unit of mm
 FoV_degree = 60 # field of view in unit of degree
 rf_FoV = 10 # field of sharp view
 
-alpha = math.radians(FoV_degree)
-gamma = math.radians(rf_FoV)
-beta = 0.5*alpha -  np.arcsin(((1800-distance)/1800) * math.sin(math.pi - 0.5*alpha))
-phi = 0.5*alpha - gamma - np.arcsin(((1800-distance)/1800) * math.sin(math.pi - 0.5*alpha + gamma))
-
-l1 = phi*1800*mm_pix
-l2 = beta*1800*mm_pix
-
-# arrow
-arrow_left = ((0, 15), (-80, 15), (-80, 40), (-140, 0), (-80, -40), (-80, -15), (0, -15))
-arrow_right = ((0, 15), (80, 15), (80, 40), (140, 0), (80, -40), (80, -15), (0, -15))
+# text settings for opening and closing
+text_size = 50
+textbox_size = [None, None]
 
 # trigger_flash
 trigger_sizex = 30
 trigger_sizey = 60
 trigger_ypos = -1*(screen_height/2 - trigger_sizey/2 - 100)
 
-# test
-test_endo_trials = 4
-test_exo_trials = 4
-test_val_ratio = 0.75
 
-# experiment
-fix_time = 1.5
-val_ratio = 0.8
+# click box
+click_box_size = (100,50)
+bk_color = '#333333'
+tx_color = '#f2f2f2'
+tx_height = 40
 
-# receptive field
-rf_size = l2 - l1
-rf_pos = 0.5*(l1 + l2)
+col1_6 = -400
+col2_6 = 0
+col3_6 = 400
+row1_6 = -100
+row2_6 = -400
+pos_6 = [(col1_6, row1_6), (col2_6, row1_6), (col3_6, row1_6), (col1_6, row2_6), (col2_6, row2_6), (col3_6, row2_6)]
+text_6 = ['1', '2', '3', '4', '5', '6']
 
-# stimulus
-stim_time = 0.05
-stimulus_FoV = 2 # in degree
-psi = 0.5*(alpha - gamma) - np.arcsin((1800-distance)/1800 * math.sin(math.pi - 0.5*(alpha - gamma)))
-dr = (math.sin(psi) / math.sin(math.pi - 0.5*(alpha - gamma))) * 1800
-stimulus_size = math.radians(stimulus_FoV) * dr
-stimulus_pos_a = ((l2 - l1) / 6) + l1
-stimulus_pos_b = ((l2 - l1) / 2) + l1
-stimulus_pos_c = ((l2 - l1) * 5 / 6) + l1
-stimulus_pos_up = ((l2 - l1) / 2) - stimulus_size
-stimulus_pos_down = -1 * stimulus_pos_up
 
-# ics: interval between cue and stimulus
-ics_fast = 0.5
-ics_slow = 1
-
-endo_trials = 60
-endo_cue_time = 1
-endo_res = 1.5
-
-exo_trials = 60
-exo_cue_flash = 2
-exo_cue_flash_ontime = 0.033
-exo_cue_flash_offtime = 0.033
-exo_res = 1.5
-
-# text
-text_size = 35
-
-# Finish
+col1_8 = -500
+col2_8 = -200
+col3_8 = 200
+col4_8 = 500
+row1_8 = -100
+row2_8 = -400
+pos_8 = [(col1_8, row1_8), (col2_8, row1_8), (col3_8, row1_8), (col4_8, row1_8), (col1_8, row2_8), (col2_8, row2_8), (col3_8, row2_8), (col4_8, row2_8)]
+text_8 = ['1', '2', '3', '4', '5', '6', '7', '8']

@@ -10,7 +10,7 @@ import time
 # dilogue box
 ''' Set: 1,2,3,4
     Test: 0,1 '''
-expInfo = {'Name': 'HAL', 'ID': '0', 'Set': '1', 'Test': '0'}
+expInfo = {'Name': 'HAL', 'ID': '30', 'Set': '4', 'Test': '0'}
 expInfo['dateStr'] = data.getDateStr()  # add the current time
 # present a dialogue to change params
 dlg = gui.DlgFromDict(expInfo, title='Experiment Info', fixed=['dateStr'])
@@ -25,8 +25,6 @@ dataFile = open('../../behav_data/'+filename+'.csv', 'w')  # a simple text file 
     response: 0 = no response, 1 = has response ?
     reaction time: in second '''
 dataFile.write('question,answer,reaction time\n')
-# dataFile.write('%s,%d,%.3f\n' % ('A2', 3, 5.123))
-# dataFile.write('%s,%d,%.3f\n' % ('D10', 5, 12.427))
 
 # create a window
 mywin = visual.Window([screen_width, screen_height], 
@@ -34,14 +32,14 @@ mywin = visual.Window([screen_width, screen_height],
                       color=[-1,-1,-1], units="pix")
 print("Window created.")
 
-# # create objects
-# trigger_flash = visual.Rect(mywin, pos=((screen_width-trigger_sizex)/2, trigger_ypos),
-#                        size=(trigger_sizex,trigger_sizey), lineColor=None, fillColor='white')
-# print("Objects created.")
+# create objects
+trigger_flash = visual.Rect(mywin, pos=((screen_width-trigger_sizex)/2, trigger_ypos),
+                       size=(trigger_sizex,trigger_sizey), lineColor=None, fillColor='white')
+
+print("Objects created.")
 
 # get questions by set
 sets = get_sets(id=int(expInfo['ID']), set_number=int(expInfo['Set']), test=int(expInfo['Test']))
-
 print(sets)
 print("Question set generated.")
 
