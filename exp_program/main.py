@@ -46,13 +46,13 @@ print("Question set generated.")
 refresh_rate = mywin.getActualFrameRate()
 print("Refresh rate: %.2f", refresh_rate)
 
-# trigger = serial.Serial('COM3', 9600) # lab 11, office 3
-# print("Serial port for Arduino opened.")
+trigger = serial.Serial('COM3', 9600) # lab 11, office 3
+print("Serial port for Arduino opened.")
 
 start(mywin, expInfo)
 for question in sets:
     index, options = question[0], question[1]
-    answer, reaction_time = one_question(mywin, index, options)
+    answer, reaction_time = one_question(mywin, index, options, trigger)
     # save data
     dataFile.write('%s,%d,%.3f\n' %(index, answer, reaction_time))
 

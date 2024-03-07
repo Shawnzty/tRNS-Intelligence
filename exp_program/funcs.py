@@ -22,7 +22,7 @@ def get_sets(id, set_number, test):
     return return_sets
 
 
-def one_question(mywin, index, options):
+def one_question(mywin, index, options, trigger):
     image_path = 'rspm/' + index + '.png'
     image_pil = Image.open(image_path)
     width, height = image_pil.size
@@ -33,7 +33,7 @@ def one_question(mywin, index, options):
 
     mouse = event.Mouse(mywin)
 
-    # trigger.write(b'H')
+    trigger.write(b'H')
     mywin.flip()
     answer = 0
     reaction_time = 0
@@ -47,7 +47,7 @@ def one_question(mywin, index, options):
             # print(answer)
             if answer != 0:
                 reaction_time = rt_clock.getTime()
-                # trigger.write(b'L')
+                trigger.write(b'L')
                 show_one_question(mywin, options, image_stim, width, height)
                 clicked_box(mywin, options, answer)
                 mywin.flip()
