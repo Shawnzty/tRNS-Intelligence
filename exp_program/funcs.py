@@ -9,7 +9,7 @@ import time
 
 def get_sets(id, set_number, test):
 
-    filename = 'rspm_info.csv'
+    filename = 'ravens_info.csv'
     df = pd.read_csv(filename)
     if test == 0:
         id_column = "id" + str(id)
@@ -23,7 +23,7 @@ def get_sets(id, set_number, test):
 
 
 def one_question(mywin, index, options, trigger):
-    image_path = 'rspm/' + index + '.png'
+    image_path = 'ravens/' + index + '.png'
     image_pil = Image.open(image_path)
     width, height = image_pil.size
 
