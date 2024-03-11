@@ -15,8 +15,10 @@ expInfo['dateStr'] = data.getDateStr()  # add the current time
 # present a dialogue to change params
 dlg = gui.DlgFromDict(expInfo, title='Experiment Info', fixed=['dateStr'])
 if dlg.OK:
-    filename = expInfo['Name'] + "_" + expInfo['ID'] + "_test_" + expInfo['dateStr'] if expInfo['Test']==1 \
-        else expInfo['Name'] + "_" + expInfo['ID'] + "_" + expInfo['Set'] + "_" + expInfo['dateStr']
+    if expInfo['Test']=='1':
+        filename = expInfo['Name'] + "_" + expInfo['ID'] + "_test_" + expInfo['dateStr']
+    else:
+        expInfo['Name'] + "_" + expInfo['ID'] + "_" + expInfo['Set'] + "_" + expInfo['dateStr']
 else:
     core.quit()  # the user hit cancel so exit
 dataFile = open('../../behav_data/'+filename+'.csv', 'w')  # a simple text file with 'comma-separated-values'
@@ -28,7 +30,7 @@ dataFile.write('question,answer,reaction time\n')
 
 # create a window
 mywin = visual.Window([screen_width, screen_height], 
-                      fullscr=True, screen=1, monitor="testMonitor", 
+                      fullscr=True, screen=2, monitor="testMonitor", 
                       color=[-1,-1,-1], units="pix")
 print("Window created.")
 
@@ -46,7 +48,7 @@ print("Question set generated.")
 refresh_rate = mywin.getActualFrameRate()
 print("Refresh rate: %.2f", refresh_rate)
 
-trigger = serial.Serial('COM3', 9600) # lab 11, office 3
+trigger = serial.Serial('COM17', 9600) # lab 11, office 3
 print("Serial port for Arduino opened.")
 
 start(mywin, expInfo)

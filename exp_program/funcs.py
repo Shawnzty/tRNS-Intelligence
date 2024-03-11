@@ -16,7 +16,7 @@ def get_sets(id, set_number, test):
         filtered_df = df[df[id_column] == set_number]
         sets = filtered_df.iloc[:,[0,1]]
     else:
-        sets = df.iloc[-3:,[0,1]]
+        sets = df.iloc[-5:,[0,1]]
     return_sets = sets.to_numpy()
 
     return return_sets
