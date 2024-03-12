@@ -55,3 +55,6 @@ text_8 = ['1', '2', '3', '4', '5', '6', '7', '8']
 
 # response
 wait_for_answer = 60 # in unit of second
+
+# resting state
+rs_time = 20 # seconds

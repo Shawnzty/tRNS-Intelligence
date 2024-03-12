@@ -175,4 +175,4 @@ def finish(mywin, expInfo):
     message1.setSize(text_size)
     message1.draw()
     mywin.flip()
-    core.wait(2)
+    core.wait(3)
