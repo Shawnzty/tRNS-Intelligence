@@ -18,7 +18,7 @@ if dlg.OK:
     if expInfo['Test']=='1':
         filename = expInfo['Name'] + "_" + expInfo['ID'] + "_test_" + expInfo['dateStr']
     else:
-        expInfo['Name'] + "_" + expInfo['ID'] + "_" + expInfo['Set'] + "_" + expInfo['dateStr']
+        filename = expInfo['Name'] + "_" + expInfo['ID'] + "_" + expInfo['Set'] + "_" + expInfo['dateStr']
 else:
     core.quit()  # the user hit cancel so exit
 dataFile = open('../../behav_data/'+filename+'.csv', 'w')  # a simple text file with 'comma-separated-values'
