@@ -39,7 +39,7 @@ def one_question(mywin, index, options, trigger):
     reaction_time = 0
     rt_clock = core.Clock()
     while rt_clock.getTime() < wait_for_answer:
-        if rt_clock.getTime() > 1:
+        if rt_clock.getTime() > 0.5:
             trigger.write(b'L')
         buttons, _ = mouse.getPressed(getTime=True)
         if buttons[0] == 1: # left click
@@ -53,9 +53,9 @@ def one_question(mywin, index, options, trigger):
                 show_one_question(mywin, options, image_stim, width, height)
                 clicked_box(mywin, options, answer)
                 mywin.flip()
-                core.wait(0.25)
+                core.wait(0.2)
                 trigger.write(b'L')
-                core.wait(0.25)
+                core.wait(0.3)
                 break
             else:
                 continue
