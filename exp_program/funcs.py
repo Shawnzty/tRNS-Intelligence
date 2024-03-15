@@ -163,13 +163,20 @@ def start(mywin, expInfo):
     message1 = visual.TextStim(mywin, pos=[0,+100], wrapWidth=1000,
         text="Hello, " + expInfo['Name'] + "!\n Welcome to the experiment.")
     message2 = visual.TextStim(mywin, pos=[0,-100], wrapWidth=1000,
-                               text='Please hit the space to start.')
+                               text='Left click to start.')
     message1.setSize(text_size)
     message2.setSize(text_size)
     message1.draw()
     message2.draw()
     mywin.flip()
-    event.waitKeys(keyList=['space'])
+    # event.waitKeys(keyList=['space'])
+    
+    # wait for left mouse click
+    mouse = event.Mouse(mywin)
+    while True:
+        if mouse.getPressed()[0]:  # check if left button is pressed
+            break
+        core.wait(0.1)  # wait for a short interval to avoid excessive CPU usage
 
 
 def finish(mywin, expInfo):

@@ -11,11 +11,19 @@ import time
 def rs_start(mywin):
     # display instructions and wait
     message1 = visual.TextStim(mywin, pos=[0,0], wrapWidth=1000,
-        text="Please hit the space to start resting state.")
+        text="Left click to start resting state.")
     message1.setSize(text_size)
     message1.draw()
     mywin.flip()
-    event.waitKeys(keyList=['space'])
+    # event.waitKeys(keyList=['space'])
+
+    # wait for left mouse click
+    mouse = event.Mouse(mywin)
+    while True:
+        if mouse.getPressed()[0]:  # check if left button is pressed
+            break
+        core.wait(0.1)  # wait for a short interval to avoid excessive CPU usage
+
     return True
 
 
