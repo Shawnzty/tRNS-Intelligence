@@ -7,58 +7,6 @@ from funcs import *
 import serial
 import time
 
-
-def rs_start(mywin):
-    # display instructions and wait
-    message1 = visual.TextStim(mywin, pos=[0,0], wrapWidth=1000,
-        text="Left click to start resting state.")
-    message1.setSize(text_size)
-    message1.draw()
-    mywin.flip()
-    # event.waitKeys(keyList=['space'])
-
-    # wait for left mouse click
-    mouse = event.Mouse(mywin)
-    while True:
-        if mouse.getPressed()[0]:  # check if left button is pressed
-            break
-        core.wait(0.1)  # wait for a short interval to avoid excessive CPU usage
-
-    return True
-
-
-def rs_count_down(mywin):
-    numbers = ["5", "4", "3", "2", "1"]
-    for i in numbers:
-        number = visual.TextStim(mywin, pos=[0,0], wrapWidth=1000, text=i)
-        number.setSize(200)
-        number.draw()
-        mywin.flip()
-        core.wait(1)
-    return True
-
-
-def rs_finish(mywin):
-    message1 = visual.TextStim(mywin, pos=[0,0], wrapWidth=1000,
-        text="Resting state finished.")
-    message1.setSize(text_size)
-    message1.draw()
-    mywin.flip()
-    core.wait(3)
-    return True
-
-
-def resting_state(mywin, trigger, rs_time=rs_time):
-    fixation = visual.ShapeStim(mywin, pos=[0,0], vertices=((0, -50), (0, 50), (0,0), (-50,0), (50, 0)),
-                            lineWidth=15, closeShape=False, lineColor='white')
-    fixation.draw()
-    trigger.write(b'H')
-    mywin.flip()
-    core.wait(rs_time)
-    trigger.write(b'L')
-    return True
-
-
 # create a window
 mywin = visual.Window([screen_width, screen_height], 
                       fullscr=True, screen=2, monitor="testMonitor", 
@@ -74,5 +22,5 @@ print("Serial port for Arduino opened.")
 
 rs_start(mywin)
 rs_count_down(mywin)
-resting_state(mywin, trigger)
+resting_state(mywin, trigger, rs_time)
 rs_finish(mywin)

@@ -8,9 +8,9 @@ import serial
 import time
 
 # dilogue box
-''' Set: 1,2,3,4
+''' Set: 1,2
     Test: 0,1 '''
-expInfo = {'Name': 'HAL', 'ID': '31', 'Set': '1', 'Test': '0'}
+expInfo = {'Name': 'HAL', 'ID': '70', 'Set': '1', 'Test': '0'}
 expInfo['dateStr'] = data.getDateStr()  # add the current time
 # present a dialogue to change params
 dlg = gui.DlgFromDict(expInfo, title='Experiment Info', fixed=['dateStr'])
@@ -34,16 +34,10 @@ mywin = visual.Window([screen_width, screen_height],
                       color=[-1,-1,-1], units="pix")
 print("Window created.")
 
-# create objects
-# trigger_flash = visual.Rect(mywin, pos=((screen_width-trigger_sizex)/2, trigger_ypos),
-#                        size=(trigger_sizex,trigger_sizey), lineColor=None, fillColor='white')
-
-# print("Objects created.")
-
 # get questions by set
 sets = get_sets(id=int(expInfo['ID']), set_number=int(expInfo['Set']), test=int(expInfo['Test']))
-print(sets)
-print("Question set generated.")
+# print(sets)
+print("Question set obtained.")
 
 refresh_rate = mywin.getActualFrameRate()
 print("Refresh rate: %.2f", refresh_rate)
@@ -59,8 +53,7 @@ for question in sets:
     # save data
     dataFile.write('%s,%d,%.3f\n' %(index, answer, reaction_time))
 
-print(dataFile)
-
+# print(dataFile)
 finish(mywin, expInfo)
 
 dataFile.close()
