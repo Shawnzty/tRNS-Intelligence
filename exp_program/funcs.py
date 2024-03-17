@@ -5,7 +5,14 @@ from settings import *
 from PIL import Image
 import serial
 import time
+from restingstate import *
 
+
+def short_resting_state(mywin, trigger):
+    rs_count_down(mywin)
+    resting_state(mywin, trigger, rs_time=short_rs_time)
+    rs_finish(mywin)
+    return True
 
 def get_sets(id, set_number, test):
 

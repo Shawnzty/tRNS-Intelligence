@@ -48,7 +48,7 @@ def rs_finish(mywin):
     return True
 
 
-def resting_state(mywin, trigger):
+def resting_state(mywin, trigger, rs_time=rs_time):
     fixation = visual.ShapeStim(mywin, pos=[0,0], vertices=((0, -50), (0, 50), (0,0), (-50,0), (50, 0)),
                             lineWidth=15, closeShape=False, lineColor='white')
     fixation.draw()
