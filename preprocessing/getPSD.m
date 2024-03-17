@@ -10,6 +10,6 @@ psdx(2:end-1) = 2*psdx(2:end-1);
 freq = 0:fs/length(x):fs/2;
 
 db = pow2db(psdx);
-plot(freq,db)
+% plot(freq,db)
 end
 

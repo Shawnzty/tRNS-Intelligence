@@ -54,7 +54,7 @@ pos_8 = [(col1_8, row1_8), (col2_8, row1_8), (col3_8, row1_8), (col4_8, row1_8),
 text_8 = ['1', '2', '3', '4', '5', '6', '7', '8']
 
 # response
-wait_for_answer = 60 # in unit of second
+wait_for_answer = 90 # in unit of second
 
 # resting state
 rs_time = 180 # 3 minutes
