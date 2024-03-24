@@ -46,7 +46,12 @@ trigger = serial.Serial('COM17', 9600) # lab 11, office 3
 print("Serial port for Arduino opened.")
 
 start(mywin, expInfo)
-short_resting_state(mywin, trigger)
+
+if expInfo['Test']=='1':
+    short_resting_state(mywin, trigger, test_rs_time)
+else:
+    short_resting_state(mywin, trigger, short_rs_time)
+
 for question in sets:
     index, options = question[0], question[1]
     answer, reaction_time = one_question(mywin, index, options, trigger)

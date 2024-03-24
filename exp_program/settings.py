@@ -59,3 +59,4 @@ wait_for_answer = 90 # in unit of second
 # resting state
 rs_time = 180 # 3 minutes
 short_rs_time = 30 # 30 seconds
+test_rs_time = 10 # 10 seconds
