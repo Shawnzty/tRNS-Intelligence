@@ -58,7 +58,7 @@ def resting_state(mywin, trigger, rs_time):
     return True
 
 
-def short_resting_state(mywin, trigger):
+def short_resting_state(mywin, trigger, short_rs_time):
     rs_count_down(mywin)
     resting_state(mywin, trigger, short_rs_time)
     rs_finish(mywin)
