@@ -2,7 +2,7 @@ clear;
 clc;
 close all;
 
-filename = "sugino_61_rs";
+filename = "shi_11_2";
 filename = append("../../data/eeg/",filename);
 eeg = load(filename).y;
 
@@ -25,17 +25,21 @@ end
 
 % Plot raw
 time = eeg(1, :); % Time stamps
-for chan = 1:32
-    figure(); % Create a new figure window
+plot(time, filteredEEG(34,:));
+% ylim([-50 50]);
+% xlim([205 217]);
 
-    plot(eeg(1,:), filteredEEG(chan+1,:));
-    hold on;
-    plot(eeg(1,:), filteredEEG(34,:));
-
-    ylim([-50 50]);
-    xlim([205 217]);
-
-end
+% for chan = 1:32
+%     figure(); % Create a new figure window
+% 
+%     plot(time, filteredEEG(chan+1,:));
+%     hold on;
+%     plot(time, filteredEEG(34,:));
+% 
+%     ylim([-50 50]);
+%     xlim([205 217]);
+% 
+% end
 
 % Plot raw
 % time = eeg(1, :); % Time stamps
