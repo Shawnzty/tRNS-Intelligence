@@ -5,13 +5,13 @@ clear;
 fs = 4800;
 rest_least = 144000;
 rest_most = 150000;
-question_least = 2300;
-question_most = 2700;
-answer_least = 950;
-answer_most = 1400;
+question_least = 2000;
+question_most = 2500;
+answer_least = 900;
+answer_most = 1200;
 
-for subject_id = 1:26
-    for tasktime = 1:2
+for subject_id = 11:11
+    for tasktime = 1:1
         filename = "../../data/" + num2str(subject_id) + "/" + num2str(subject_id) + "_" + num2str(tasktime) + ".mat";
         disp(filename);
         eeg = load(filename).y;

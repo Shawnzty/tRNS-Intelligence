@@ -18,10 +18,13 @@ trig = zeros(1,len);
 need_length = 180*fs;
 trig(100:need_length+100) = 8;
 
-eeg = [time;make_rs;trig];
+rest = zeros(1, len);
+rest(100) = 1;
+
+eeg = [time; make_rs; trig; rest];
 plot(eeg(2,:))
 hold on;
 plot(eeg(34,:));
 
-new_name = "../../data/3/3_rs1_aligned.mat";
+new_name = "../../data/3/3_rs1_withevent.mat";
 save(new_name, "eeg");
