@@ -12,6 +12,9 @@ from pyddm import Model, Sample, Fittable, Fitted
 from pyddm.models import DriftConstant, NoiseConstant, BoundConstant, OverlayNonDecision, ICPointSourceCenter, LossRobustLikelihood
 from pyddm.functions import fit_adjust_model, display_model
 import pyddm.plot
+from scipy.signal import hilbert
+import fathon
+from fathon import fathonUtils as fu
 
 
 def load_info():
@@ -74,3 +77,24 @@ def load_subjects_behavior():
         
     return subjects_behavior
 
+
+def synchrony_R(eeg):
+    # Parameters
+    n_channels, n_samples = eeg.shape
+    # Step 1: Apply Hilbert Transform to get the phase information
+    analytical_signal = hilbert(eeg, axis=1)  # Apply along time axis
+    phase = np.angle(analytical_signal)  # Instantaneous phase
+    # Step 2: Compute Kuramoto Order Parameter r(t) for each time point
+    r_t = np.abs(np.sum(np.exp(1j * phase), axis=0)) / n_channels
+    # Step 3: Calculate the mean synchrony R over the entire data segment
+    R = np.mean(r_t)
+    return R
+
+
+def dfa_alpha(data, min_win=25, max_win=200):
+    dfa_data = fu.toAggregated(data)
+    pydfa = fathon.DFA(dfa_data)
+    wins = fu.linRangeByStep(min_win, max_win)
+    n,F = pydfa.computeFlucVec(wins, revSeg=True, polOrd=3)
+    H, H_intercept = pydfa.fitFlucVec()
+    return H
