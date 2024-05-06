@@ -98,3 +98,21 @@ def dfa_alpha(data, min_win=25, max_win=200):
     n,F = pydfa.computeFlucVec(wins, revSeg=True, polOrd=3)
     H, H_intercept = pydfa.fitFlucVec()
     return H
+
+
+def remove_outliers(array, low_k, high_k, verbose=False):
+    # Calculate Q1 and Q3
+    Q1 = np.quantile(array, 0.25)
+    Q3 = np.quantile(array, 0.75)
+    # Compute the IQR
+    IQR = Q3 - Q1
+    # Define bounds for outliers
+    lower_bound = Q1 - low_k * IQR
+    upper_bound = Q3 + high_k * IQR
+    # Filter out outliers
+    filtered_array = array[(array >= lower_bound) & (array <= upper_bound)]
+    if verbose:
+        # print(f"Original array:\n{array.describe()}\n")
+        print(f"removed {len(array) - len(filtered_array)} outliers out of {len(array)}\n")
+    return filtered_array
+
