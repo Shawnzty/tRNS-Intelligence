@@ -1,0 +1,95 @@
+# OA with noise
+# 2021.2.22 created by Tianyi Zheng
+
+# parameters
+# average excitability
+param eta = 0.1
+# reversal potential
+param vsyn = 0
+# connect
+param psyn = 0.1
+# variance of excitability
+param del = 0.04
+# noise
+param sig = 0
+
+# area of neural population
+a_o_n = 2.9*10^(-4)*10^(6)
+# gL leakage conductance
+gl = 0.1
+# something like ratio
+lc = 1.0
+# firing threshold
+vt = -55
+# VR resting potential
+vr = -62
+# VT threshold potential
+# vt = -55
+# C1
+c1 = 2/(vt-vr)
+# C2
+c2 = (2*vsyn-vt-vr)/(vt-vr)
+# N
+ne_num = 1000
+# C3
+c3 = (c1)^2/4
+
+## I2I
+        # tau_d decay time constant
+        td = 5
+        # gpeak
+        g_peak = 6.2
+        # g*p*N
+        gpn = g_peak/a_o_n*ne_num*psyn
+
+        # reverse gsyn
+        gsyn = -gs
+
+# no cross
+        nn = c3*(sig^2)
+        A = -c1*del - gsyn
+        U = -c1*del + gsyn
+        B = -gl + c1*eta + c2*gsyn
+        D = c1*eta + c2*gsyn
+        E = z1^2 - z2^2 + k1
+        H = 2*z1*z2 + k2
+        L = z1*k1 - z2*k2
+        Y = z1*k2 + z2*k1
+        
+
+        M = 1 + z1
+        O = ((1 + z1)^2) + z2^2
+        R = (1-((z1^2)+(z2^2))) / (2*O)
+        S = (k1*(M^3) + 3*k2*z2*(M^2) - 3*k1*(z2^2)*M - k2*(z2^3)) / (O^3)
+
+####################
+
+
+#z,k derivertives terms
+fz1 = 0.5*(A*E - B*H) + (-z2*D - z1*c1*del) + 0.5*U - nn*(M^3 - 3*(z2^2)*M + 3*k1*M - 3*z2*k2)
+fz2 = 0.5*(B*E + A*H) + (z1*D - z2*c1*del) + 0.5*B - nn*(3*z2*(M^2) - z2^3 + 3*k1*z2 + 3*k2*M)
+fk1 = 2*(A*L - B*Y) + 2*(-c1*del*k1 - k2*D) - nn*(M^4 + z2^4 - 6*(z2^2)*(M^2) + 12*k1*(M^2 - z2^2) - 24*z2*k2*M + 9*(k1^2 - k2^2))
+fk2 = 2*(A*Y + B*L) + 2*(-c1*del*k2 + k1*D) - nn*(4*z2*(M^3) - 4*(z2^3)*M + 24*z2*k1*M + 12*k2*(M^2 - z2^2) + 18*k1*k2)
+
+# firing rate
+fr  =(gl/pi)*(R + S)
+aux fire = fr
+
+fgsyn = (-1/td)*gsyn + gpn*fr
+
+#dynamicalvariables
+gs' = fgsyn
+z1' = fz1
+z2' = fz2
+k1' = fk1
+k2' = fk2
+
+#initial value
+gs(0)=0.01
+
+@ total=1000,meth=euler, dt=0.01
+# to increase the maximum storage capacity
+@ maxstor=10000000
+
+
+done

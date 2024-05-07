@@ -1,0 +1,92 @@
+# OA with noise
+# 2020.6.21 created by Tianyi Zheng
+
+# parameters
+# average excitability
+param eta_I = 0.1
+# reversal potential
+param vsyn_I = -70
+# firing threshold
+param vt_I = -55
+# connect
+param psyn_I2I = 0.1
+# variance of excitability
+param del_I = 0.04
+# noise
+param sig = 0.1
+
+# area of neural population
+a_o_n = 2.9*10^(-4)*10^(6)
+# gL leakage conductance
+gl_I = 0.1
+# maybe something like ratio
+lc_I = 1.0
+# VR resting potential
+vr_I = -62
+
+# C1
+c1_I = 2/(vt_I-vr_I)
+# C2
+c2_I = (2*vsyn_I-vt_I-vr_I)/(vt_I-vr_I)
+# N
+ne_num_I = 1000
+# C3
+c3_I = (c1_I)^2/2
+
+## I2I
+        # tau_d decay time constant
+        td_I2I = 5
+        # gpeak
+        g_peak_I2I = 6.2
+        # g*p*N
+        gpn_I2I = g_peak_I2I/a_o_n*ne_num_I*psyn_I2I
+
+# no cross
+        nn = c3_I*(sig^2)
+        A_I = -gl_I + c2_I*gsyn_I
+        B_I = z1_I*k1_I - z2_I*k2_I
+        D_I = nn + gsyn_I
+        E_I = z1_I*k2_I + z2_I*k1_I
+        H_I = (z1_I^2) - (z2_I^2) + k1_I
+        J_I = 2*z1_I*z2_I + k2_I
+        T_I = (z1_I^2) - (z2_I^2)
+
+        add_k1 = -2*z1_I - 0.5 - 10*B_I - 2*(z1_I^3) + 6*z1_I*(z2_I^2) - 6*k1_I*T_I + 12*z1_I*z2_I*k2_I - 0.5*((z1_I^4)+(z2_I^4)) + 3*(z1_I^2)*(z2_I^2) - 4.5*((k1_I^2)-(k2_I^2))
+        add_k2 = -2*z2_I -10*E_I - 6*(z1_I^2)*(z2_I) + 2*(z2_I^3) - 6*k2_I*T_I - 12*z1_I*z2_I*k1_I - 2*z1_I*z2_I*T_I - 9*k1_I*k2_I
+
+        M_I = 1 + z1_I
+        O_I = ((1 + z1_I)^2) + z2_I^2
+        R_I = (1-((z1_I^2)+(z2_I^2))) / (2*O_I)
+        S_I = (k1_I*(M_I^3) + 3*k2_I*z2_I*(M_I^2) - 3*k1_I*(z2_I^2)*M_I - k2_I*(z2_I^3)) / (O_I^3)
+
+####################
+
+
+#z,k derivertives terms
+fz1_I = -0.5*A_I*J_I - 0.5*D_I*H_I - c2_I*gsyn_I*z2_I + 0.5*D_I - 1.5*nn*z1_I - nn - nn*H_I - 1.5*nn*B_I - 0.5*nn*(z1_I^3) + 1.5*nn*z1_I*(z2_I^2) - 0.5*c1_I*del_I*H_I - 0.5*c1_I*eta_I*J_I - c1_I*z1_I*del_I - c1_I*z2_I*eta_I - 0.5*c1_I*del_I
+fz2_I = 0.5*A_I*H_I - 0.5*D_I*J_I + c2_I*gsyn_I*z1_I + 0.5*A_I - 1.5*nn*z2_I - nn*J_I - 1.5*nn*E_I - 1.5*nn*(z1_I^2)*z2_I + 0.5*nn*(z2_I^3) + 0.5*c1_I*eta_I*H_I - 0.5*c1_I*del_I*J_I + c1_I*z1_I*eta_I - c1_I*z2_I*del_I + 0.5*c1_I*eta_I
+fk1_I = -2*c1_I*del_I*B_I - 2*c1_I*E_I*eta_I - 2*k1_I*c1_I*del_I - 2*k2_I*c1_I*eta_I - 2*A_I*E_I - 2*D_I*B_I - 2*k2_I*c2_I*gsyn_I - 1.5*nn*(4*k1_I + 2*T_I) + nn*add_k1
+fk2_I = 2*c1_I*eta_I*B_I - 2*c1_I*E_I*del_I + 2*k1_I*c1_I*eta_I - 2*k2_I*c1_I*del_I + 2*A_I*B_I - 2*D_I*E_I + 2*k1_I*c2_I*gsyn_I - 1.5*nn*(4*k2_I + 4*z1_I*z2_I) + nn*add_k2
+
+# firing rate
+fr_I  =(gl_I/pi)*(R_I + S_I)
+aux fire = fr_I
+
+fgsyn_I = (-1/td_I2I)*gsyn_I + gpn_I2I*fr_I
+
+#dynamicalvariables
+gsyn_I' = fgsyn_I
+z1_I' = fz1_I
+z2_I' = fz2_I
+k1_I' = fk1_I
+k2_I' = fk2_I
+
+#initial value
+gsyn_I(0)=0.1
+
+@ total=1000,meth=euler, dt=0.01
+# to increase the maximum storage capacity
+@ maxstor=10000000
+
+
+done
