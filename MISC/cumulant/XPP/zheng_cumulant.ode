@@ -2,18 +2,18 @@
 # 2020.6.21 created by Tianyi Zheng
 
 # parameters
-# average excitability
+# average excitability 0.1
 param eta_I = 0.1
-# reversal potential
-param vsyn_I = -70
-# firing threshold
+# reversal potential -70
+param vsyn_I = 0
+# firing threshold -55
 param vt_I = -55
-# connect
-param psyn_I2I = 0.1
-# variance of excitability
+# connect 0.1
+param psyn_I2I = 0.002
+# variance of excitability 0.04
 param del_I = 0.04
-# noise
-param sig = 0.1
+# noise 0.1
+param sig = 0.2
 
 # area of neural population
 a_o_n = 2.9*10^(-4)*10^(6)

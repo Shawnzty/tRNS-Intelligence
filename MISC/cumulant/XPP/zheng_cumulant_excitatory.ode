@@ -3,13 +3,13 @@
 
 # parameters
 # average excitability
-param eta = 0.1
+param eta = -500
 # reversal potential
 param vsyn = 0
 # connect
-param psyn = 0.1
+param psyn = 0.1 # default 0.1
 # variance of excitability
-param del = 0.04
+param del = 0
 # noise
 param sig = 0
 
