@@ -16,6 +16,7 @@ from scipy.signal import hilbert
 import fathon
 from fathon import fathonUtils as fu
 from mne.stats import permutation_cluster_test, permutation_cluster_1samp_test
+import mne
 
 
 
@@ -148,3 +149,50 @@ def perm_test(condition1, condition2, adjacency):
     t_obs = np.sqrt(f_obs) * sign
     # t_obs = np.sqrt(f_obs)
     return t_obs
+
+
+def get_psd_mne(signal: np.ndarray, sampling_freq: float, fmin: float = 0.5, fmax: float = 100.0):
+    """
+    Calculate the Power Spectral Density (PSD) of EEG signals.
+
+    Parameters:
+    signal (np.ndarray): EEG signal array of shape (n_channels, n_times)
+    sampling_freq (float): Sampling frequency of the signal
+    fmin (float): Minimum frequency to consider for PSD calculation
+
+    Returns:
+    freqs: Frequency values
+    psd: Power spectral density values for each channel
+    """
+    # info = mne.create_info(ch_names=[f'ch{i}' for i in range(signal.shape[0])],
+    #                        sfreq=sampling_freq,
+    #                        ch_types='eeg')
+    
+    # raw = mne.io.RawArray(signal, info)
+
+    psd, freqs = mne.time_frequency.psd_array_welch(signal, sfreq=sampling_freq, fmin=fmin, fmax=fmax)
+
+    return freqs, psd
+
+
+def get_psd(signal: np.ndarray, sampling_freq: float):
+    """
+    Calculate the Power Spectral Density (PSD) using FFT.
+
+    Parameters:
+    signal (np.ndarray): EEG signal array of shape (n_channels, n_times)
+    sampling_freq (float): Sampling frequency of the signal
+
+    Returns:
+    freqs: Frequency values
+    psd: Power spectral density values for each channel
+    """
+    n_channels, n_times = signal.shape
+    freqs = np.fft.rfftfreq(n_times, 1/sampling_freq)
+    psd = np.zeros((n_channels, len(freqs)))
+
+    for ch in range(n_channels):
+        fft_vals = np.fft.rfft(signal[ch])
+        psd[ch] = (np.abs(fft_vals) ** 2) / (sampling_freq * n_times)
+
+    return freqs, psd
