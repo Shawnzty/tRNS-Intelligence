@@ -120,6 +120,34 @@ def remove_outliers(array, low_k, high_k, verbose=False):
     return filtered_array
 
 
+def remove_outliers_df(df, column_name, low_k, high_k, verbose=False):
+    # Extract the column values as an array
+    array = df[column_name].values
+
+    # Calculate Q1 and Q3
+    Q1 = np.quantile(array, 0.25)
+    Q3 = np.quantile(array, 0.75)
+    
+    # Compute IQR
+    IQR = Q3 - Q1
+    
+    # Define bounds for outliers
+    lower_bound = Q1 - low_k * IQR
+    upper_bound = Q3 + high_k * IQR
+    
+    # Boolean mask to identify non-outliers
+    non_outliers_mask = (array >= lower_bound) & (array <= upper_bound)
+    
+    # Apply mask to DataFrame
+    filtered_df = df[non_outliers_mask].copy()
+
+    if verbose:
+        num_removed = len(df) - len(filtered_df)
+        print(f"Removed {num_removed} outliers out of {len(df)} rows based on column '{column_name}'.")
+
+    return filtered_df
+
+
 def sign_of_tvalue(condition1, condition2):
     # Step 1: Calculate median of each column for both conditions
     condition1_med = np.median(condition1, axis=0)
