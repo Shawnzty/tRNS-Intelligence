@@ -171,7 +171,7 @@ def perm_test(condition1, condition2, adjacency):
         cluster = clusters[idx][0]
         if cluster.shape[0] > 1:
             print(f"Cluster {idx}, p-value: {cluster_p_values[idx]}")
-            print("Electrodes:", cluster)
+            print("Electrodes:", cluster) # 0-31
     
     sign = sign_of_tvalue(condition1, condition2)
     t_obs = np.sqrt(f_obs) * sign
